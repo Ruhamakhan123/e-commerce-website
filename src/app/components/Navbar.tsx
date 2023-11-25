@@ -5,6 +5,7 @@ import Image from "next/image";
 import Logo from "../../../public/icons8-nike-50.png";
 import Search from "../../../public/search.png";
 import Account from "../../../public/Account.png";
+import Link from "next/link";
 function Navbar() {
   return (
     <div className="flex items-start justify-between p-10 ">
@@ -38,6 +39,9 @@ function Navbar() {
           </div>
           <div className="w-8 h-8 relative flex-col justify-start items-start inline-flex">
             <Image src={Account} alt={""}></Image>
+          </div>
+          <div className="text-zinc-100 font-Montserrat">
+            <Link href={"/SignUp"}> Sign Up</Link>
           </div>
         </div>
       </div>
