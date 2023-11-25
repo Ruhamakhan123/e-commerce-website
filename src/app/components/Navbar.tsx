@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-
 import Image from "next/image";
 import Logo from "../../../public/icons8-nike-50.png";
 import Search from "../../../public/search.png";
 import Account from "../../../public/Account.png";
+
 function Navbar() {
   return (
     <div className="flex items-start justify-between p-10 ">

@@ -3,6 +3,7 @@
 import React, { use, useRef } from "react";
 import Image from "next/image";
 import nike from "../../../public/nike-show.jpeg";
+
 function PreviewPage() {
   const radioRef1 = useRef<HTMLInputElement>(null);
   const radioRef2 = useRef<HTMLInputElement>(null);
@@ -85,6 +86,15 @@ function PreviewPage() {
             name="size"
             value={4}
           />
+
+          <div className="flex flex-col space-y-3">
+            <button className="border-white border-2 text-white px-5 py-5 rounded-full hover:bg-white hover:text-black transition-colors duration-300">
+              Add to Bag
+            </button>
+            <button className="border-white border-2 text-white px-5 py-5 rounded-full hover:bg-white hover:text-black transition-colors duration-300">
+              Shop Now
+            </button>
+          </div>
         </div>
       </div>
     </div>
