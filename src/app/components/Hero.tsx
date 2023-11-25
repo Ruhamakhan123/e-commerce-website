@@ -1,12 +1,15 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import Shoe from "../../../public/zoomx-invincible-run-flyknit-mens-road-running-shoes-sP2zk7 1.png";
 import Card from "./Card";
 import Arrow from "../../../public/arrow.png";
+import Link from "next/link";
 function Hero() {
   return (
     <div>
-      <div className="w-[1440px] h-[807px] relative bg-zinc-900 ml-10 ">
+      <div className="w-[1440px] h-[807px] relative bg-zinc-900 ml-28 ">
         <div className="left-[185px] top-[306px] absolute text-center text-zinc-100 text-opacity-10 text-[278px] font-bold font-Montserrat tracking-[120px]">
           NIKE
         </div>
@@ -27,7 +30,7 @@ function Hero() {
         <div className="w-[150px] h-2.5 bg-pink-400 rounded-[25px]" />
       </div>
       <div className="flex items-end justify-end mb-10  mr-[150px] text-white font-semibold font-Montserrat text-2xl space-x-3">
-        <div>Show all Products</div>
+        <Link href={"/show-products"}>Show all Products</Link>
         <div>
           <Image src={Arrow} alt={""}></Image>
         </div>
@@ -40,5 +43,4 @@ function Hero() {
     </div>
   );
 }
-
 export default Hero;
