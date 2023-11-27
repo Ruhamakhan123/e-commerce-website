@@ -19,7 +19,8 @@ function Login() {
     setPassword(event.target.value);
   }
 
-  function handleClick() {
+  function handleClick(event: { preventDefault: () => void }) {
+    event.preventDefault();
     if (userEmail === email) {
       if (userPassword === password) {
         router.push("/");
