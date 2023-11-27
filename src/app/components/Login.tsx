@@ -31,6 +31,8 @@ function Login() {
     } else {
       toast.error("User Not Found");
     }
+    setEmail("");
+    setPassword("");
   }
 
   return (

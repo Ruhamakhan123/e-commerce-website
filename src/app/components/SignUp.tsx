@@ -24,6 +24,10 @@ function SignUp() {
   }
   function handleClick(event: { preventDefault: () => void }) {
     event.preventDefault();
+    setfName("");
+    setlName("");
+    setEmail("");
+    setPassword("");
   }
   return (
     <div className="flex items-center justify-center min-h-screen">
