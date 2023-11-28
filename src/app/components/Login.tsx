@@ -1,8 +1,40 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import nike from "../../../public/shubham-mittal-sCXmwaVrBio-unsplash.jpg";
 import Link from "next/link";
 import Image from "next/image";
+import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast/headless";
 function Login() {
+  const userEmail = "admin@admin.com";
+  const userPassword = "admin";
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+  function emailHandler(event: { target: { value: any } }) {
+    setEmail(event.target.value);
+  }
+  function passwordHandler(event: { target: { value: any } }) {
+    setPassword(event.target.value);
+  }
+
+  function handleClick(event: { preventDefault: () => void }) {
+    event.preventDefault();
+    if (userEmail === email) {
+      if (userPassword === password) {
+        router.push("/");
+        toast.success("Login Successfully");
+      } else {
+        toast.error("Incorrect password!!!");
+      }
+    } else {
+      toast.error("User Not Found");
+    }
+    setEmail("");
+    setPassword("");
+  }
+
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="flex items-start justify-start rounded-xl shadow-lg bg-zinc-800 w-[950px] h-[650px]">
@@ -29,6 +61,7 @@ function Login() {
                   id="signup-email"
                   className="w-full px-10 py-2 text-left bg-transparent text-[#cccccc] placeholder-gray-600 focus:outline-none"
                   placeholder="Enter your email"
+                  onChange={emailHandler}
                 />
               </div>
             </div>
@@ -42,12 +75,13 @@ function Login() {
                   id="signup-password"
                   className="w-full px-10 py-2 text-left bg-transparent text-[#cccccc] placeholder-gray-600 focus:outline-none"
                   placeholder="Enter your Password"
+                  onChange={passwordHandler}
                 />
               </div>
             </div>
           </div>
           <div className="hover:shadow-blue-600/40 rounded-xl text-center  bg-gradient-to-r   from-[#6c72cb] to-[#cb69c1] px-9 py-3 font-bold text-white transition-all hover:opacity-90 hover:shadow-lg">
-            Login In
+            <button onClick={handleClick}>Login In</button>
           </div>
         </div>
       </div>
