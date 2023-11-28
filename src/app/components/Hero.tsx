@@ -9,7 +9,7 @@ import Link from "next/link";
 function Hero() {
   return (
     <div>
-      <div className="w-[1440px] h-[807px] relative bg-zinc-900 ml-28 ">
+      <div className="w-[1440px] h-[807px] relative bg-zinc-900 ml-28">
         <div className="left-[185px] top-[306px] absolute text-center text-zinc-100 text-opacity-10 text-[278px] font-bold font-Montserrat tracking-[120px]">
           NIKE
         </div>

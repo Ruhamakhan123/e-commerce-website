@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import nike from "../../../public/shubham-mittal-sCXmwaVrBio-unsplash.jpg";
+import nike from "../../../public/newshoe.webp";
 import Link from "next/link";
 import Image from "next/image";
 import { redirect } from "next/dist/server/api-utils";
