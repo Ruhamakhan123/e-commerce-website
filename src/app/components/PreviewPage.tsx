@@ -1,13 +1,35 @@
 "use client";
 
-import React, { use, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import nike from "../../../public/nike-show.jpeg";
+import axios from "axios";
+
+interface Review {
+  product_id: number;
+}
+
 function PreviewPage() {
   const radioRef1 = useRef<HTMLInputElement>(null);
   const radioRef2 = useRef<HTMLInputElement>(null);
   const radioRef3 = useRef<HTMLInputElement>(null);
   const radioRef4 = useRef<HTMLInputElement>(null);
+
+  const [reviews, setReviews] = useState<Review[]>([]);
+
+  useEffect(() => {
+    const fetchData = async (product_id: number) => {
+      try {
+        const res = await axios.get("http://localhost:8800/api/product/${}");
+        setReviews(res.data);
+        console.log(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen">

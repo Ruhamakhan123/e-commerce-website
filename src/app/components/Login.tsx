@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import nike from "../../../public/newshoe.webp";
+import nike from "../../../public/shubham-mittal-sCXmwaVrBio-unsplash.jpg";
 import Link from "next/link";
 import Image from "next/image";
 import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast/headless";
+import { toast } from "react-hot-toast";
 function Login() {
   const userEmail = "admin@admin.com";
   const userPassword = "admin";
