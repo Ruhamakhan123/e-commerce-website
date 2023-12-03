@@ -26,9 +26,6 @@ const Articles = (props: {
     | null
     | undefined;
 }) => {
-  console.log(props.name);
-  console.log(props.price);
-
   return (
     <div className="flex items-center justify-center space-x-20 ">
       <div className="flex flex-col items-center justify-center rounded-xl shadow-xl shadow-emerald-800">

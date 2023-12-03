@@ -73,17 +73,40 @@ export const getProducts = (req, res) => {
 };
 
 export const getProduct = (req, res) => {
-  const q =
-    "SELECT productID, productName, productDes, productPrice, productImage, categoryId, colorId, sizeId FROM products WHERE productID = ?";
+  const productId = req.params.id;
 
-  db.query(q, [req.params.id], (err, data) => {
+  const productQuery =
+    "SELECT p.productID, p.productName, p.productDes, p.productPrice, p.productImage, " +
+    "c.name, col.color_name, s.size_name " +
+    "FROM products p " +
+    "JOIN categories c ON p.categoryId = c.categoryId " +
+    "JOIN colors col ON p.colorId = col.color_id " +
+    "JOIN sizes s ON p.sizeId = s.size_id " +
+    "WHERE p.productID = ?";
+
+  db.query(productQuery, [productId], (err, productData) => {
     if (err) return res.status(500).json(err);
 
-    if (data.length === 0) {
+    if (productData.length === 0) {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    return res.status(200).json(data[0]);
+    const product = productData[0];
+
+    const reviewsQuery =
+      "SELECT review_id, user_review, sentiment FROM reviews WHERE product_id = ?";
+
+    db.query(reviewsQuery, [productId], (reviewsErr, reviewsData) => {
+      if (reviewsErr) return res.status(500).json(reviewsErr);
+
+      // Combine product and reviews data
+      const result = {
+        ...product,
+        reviews: reviewsData,
+      };
+
+      return res.status(200).json(result);
+    });
   });
 };
 
@@ -91,7 +114,7 @@ export const addOrder = (req, res) => {
   const date = new Date(req.body.order_date);
 
   const orderQuery =
-    "INSERT INTO orders(order_date, card_name, cvv, exp_date, card_number, address, total_amount, product_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO orders(order_date, card_name, cvv, exp_date, card_number, total_amount, product_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
   const orderValues = [
     date || null,
@@ -104,49 +127,90 @@ export const addOrder = (req, res) => {
     req.body.product_id,
   ];
 
-  const orderDetailsQuery =
-    "INSERT INTO order_details(order_id, product_id, quantity, size_id, color_id) VALUES (?, ?, ?, ?, ?)";
-
-  const orderDetailsValues = [
-    req.body.product_id,
-    req.body.quantity,
-    req.body.size_id,
-    req.body.color_id,
-  ];
-
   db.beginTransaction((err) => {
     if (err) throw err;
 
-    db.query(orderQuery, [orderValues], (err, orderResult) => {
+    db.query(orderQuery, orderValues, (err, orderResult) => {
       if (err) {
         db.rollback(() => {
           res.status(500).json(err);
         });
-      }
-
-      const order_id = orderResult.insertId;
-
-      db.query(
-        orderDetailsQuery,
-        [order_id, ...orderDetailsValues],
-        (err, detailsResult) => {
+      } else {
+        db.commit((err) => {
           if (err) {
             db.rollback(() => {
               res.status(500).json(err);
             });
+          } else {
+            res.status(200).json(orderResult);
           }
-
-          db.commit((err) => {
-            if (err) {
-              db.rollback(() => {
-                res.status(500).json(err);
-              });
-            }
-
-            res.json("Order has been created.");
-          });
-        }
-      );
+        });
+      }
     });
   });
 };
+
+// export const addOrder = (req, res) => {
+//   const date = new Date(req.body.order_date);
+
+//   const orderQuery =
+//     "INSERT INTO orders(order_date, card_name, cvv, exp_date, card_number, address, total_amount, product_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+//   const orderValues = [
+//     date || null,
+//     req.body.card_name,
+//     req.body.cvv,
+//     req.body.exp_date,
+//     req.body.card_number,
+//     req.body.address,
+//     req.body.total_amount,
+//     req.body.product_id,
+//   ];
+
+//   db.beginTransaction((err) => {
+//     if (err) throw err;
+
+//     db.query(orderQuery, [orderValues], (err, orderResult) => {
+//       if (err) {
+//         db.rollback(() => {
+//           res.status(500).json(err);
+//         });
+//       } else {
+//         res.status(200).json(orderResult);
+//       }
+//       // const orderDetailsQuery =
+//   //   "INSERT INTO order_details(order_id, product_id, quantity, size_id, color_id) VALUES (?, ?, ?, ?, ?)";
+
+//   // const orderDetailsValues = [
+//   //   req.body.product_id,
+//   //   req.body.quantity,
+//   //   req.body.size_id,
+//   //   req.body.color_id,
+//   // ];
+
+//       // const order_id = orderResult.insertId;
+
+//       // db.query(
+//       //   orderDetailsQuery,
+//       //   [order_id, ...orderDetailsValues],
+//       //   (err, detailsResult) => {
+//       //     if (err) {
+//       //       db.rollback(() => {
+//       //         res.status(500).json(err);
+//       //       });
+//       //     }
+
+//       //     db.commit((err) => {
+//       //       if (err) {
+//       //         db.rollback(() => {
+//       //           res.status(500).json(err);
+//       //         });
+//       //       }
+
+//       //       res.json("Order has been created.");
+//       //     });
+//       //   }
+//       //);
+//     });
+//   });
+// };

@@ -9,6 +9,7 @@ import Link from "next/link";
 import Articles from "./Articles";
 import axios from "axios";
 interface Product {
+  productID: number;
   productName: string;
   productPrice: number;
   productImage: StaticImageData;
