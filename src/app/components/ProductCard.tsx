@@ -1,25 +1,19 @@
 import React from "react";
 import Image from "next/image";
-import shoe from "../../../public/shoe2.png";
+import shoe from "../../../public/single.webp";
 function ProductCard() {
   return (
-    <div>
-      <div className=" flex rounded-[50px] flex-col justify-center items-center bg-gradient-to-tr from-[#6c72cb] to-[#cb69c1] space-y-4 px-5 py-5">
-        <Image className="w-[420px] h-[263px]" src={shoe} alt={""} />
-        <div className="w-[355px] text-center text-white text-xl font-bold font-Montserrat tracking-wide px-5">
-          Nike Dunks Low
+    <div className="flex flex-col items-center justify-center">
+      <div className="bg-pink-400 bg-opacity-20 rounded-md shadow-2xl">
+        <div>
+          <Image width={300} height={300} src={shoe} alt="shoe" />
         </div>
-        <div className="text-center text-white text-2xl font-semibold font-Open Sans tracking-wide">
-          $180
-        </div>
-
-        <div className="flex space-x-3 ">
-          <button className="bg-black rounded-md  text-white py-2 px-4">
-            Add to Cart
-          </button>
-          <button className="bg-black rounded-md  text-white py-2 px-4">
-            Shop Now
-          </button>
+        <div className="px-2 py-5">
+          <div className="flex flex-col space-y-2 text-white mt-5">
+            <h1 className="font-bold">Nike Dunks Low</h1>
+            <h1>Men's Shoe</h1>
+            <h1>$180</h1>
+          </div>
         </div>
       </div>
     </div>

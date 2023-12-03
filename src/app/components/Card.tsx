@@ -4,6 +4,7 @@ import shoe1 from "../../../public/shoe1.png";
 import shoe2 from "../../../public/shoe2.png";
 import shoe3 from "../../../public/shoe3.png";
 import Articles from "./Articles";
+import shoe from "../../../public/newshoe.webp";
 
 function Card() {
   return (
