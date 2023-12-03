@@ -10,9 +10,9 @@ function Card() {
   return (
     <div className="flex flex-col items-center justify-center ml-28 space-y-8">
       <div className="flex w-[1302px] h-[400px] justify-between items-center mr-24  ">
-        <Articles img={shoe} name="Nike Air Zoom Pegasus 38" price="$120" />
-        <Articles img={shoe} name="Nike Air Zoom Pegasus 38" price="$180" />
-        <Articles img={shoe} name="Nike Revolution 6" price="$60" />
+        {/* <Articles />
+        <Articles />
+        <Articles /> */}
       </div>
 
       {/* <div className="flex w-[1302px] h-[400px] justify-between items-center mr-24  ">
