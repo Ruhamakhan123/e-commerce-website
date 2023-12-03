@@ -99,7 +99,6 @@ export const getProduct = (req, res) => {
     db.query(reviewsQuery, [productId], (reviewsErr, reviewsData) => {
       if (reviewsErr) return res.status(500).json(reviewsErr);
 
-      // Combine product and reviews data
       const result = {
         ...product,
         reviews: reviewsData,
