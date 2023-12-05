@@ -60,15 +60,33 @@ export const getReviews = (req, res) => {
   });
 };
 
-export const getProducts = (req, res) => {
-  const q = req.query.cat
-    ? "SELECT productName, productDes, productPrice, productImage FROM products WHERE categoryId=?"
-    : "SELECT productName, productDes, productPrice, productImage FROM products";
-
-  db.query(q, [req.query.cat], (err, data) => {
+export const getFeatured = (req, res) => {
+  const q = "select * from featured_products";
+  db.query(q, [req.params.id], (err, data) => {
     if (err) return res.status(500).json(err);
-
     return res.status(200).json(data);
+  });
+};
+
+export const getProducts = (req, res) => {
+  const q = "SELECT * FROM products";
+
+  db.query(q, [req.params.id], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data);
+  });
+};
+
+export const getNow = (req, res) => {
+  const productQuery =
+    "SELECT p.productID, p.categoryId, p.productName, p.productDes, p.productPrice, p.productImage, " +
+    "c.name, c.categoryId " +
+    "FROM products p " +
+    "JOIN categories c ON p.categoryId = c.categoryId";
+
+  db.query(productQuery, [req.params.id], (err, productData) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(productData);
   });
 };
 
