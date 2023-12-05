@@ -3,21 +3,19 @@
 import React, { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import Shoe from "../../../public/zoomx-invincible-run-flyknit-mens-road-running-shoes-sP2zk7 1.png";
-import Card from "./Card";
 import Arrow from "../../../public/arrow.png";
 import Link from "next/link";
 import Articles from "./Articles";
 import axios from "axios";
 interface Product {
-  productID: number;
-  productName: string;
-  productPrice: number;
-  productImage: StaticImageData;
+  p_id: number;
+  p_name: string;
+  p_price: number;
+  p_image: StaticImageData;
 }
 
 function Hero() {
   const [products, setProducts] = useState<Product[]>([]);
-  console.log(products);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,13 +58,16 @@ function Hero() {
           <Image src={Arrow} alt={""}></Image>
         </div>
       </div>
-      {products.map((product, index) => (
-        <Articles
-          name={product.productName}
-          price={product.productPrice}
-          image={product.productImage}
-        ></Articles>
-      ))}
+      <div className="flex items-center justify-center space-x-24">
+        {products.map((product, index) => (
+          <Articles
+            key={product.p_id}
+            name={product.p_name}
+            price={product.p_price}
+            image={product.p_image}
+          ></Articles>
+        ))}
+      </div>
 
       <div className="flex items-center justify-center mt-20 mb-20">
         <div className="w-[150px] h-2.5 bg-pink-400 rounded-[25px]" />

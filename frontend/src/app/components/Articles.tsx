@@ -27,26 +27,15 @@ const Articles = (props: {
     | undefined;
 }) => {
   return (
-    <div className="flex items-center justify-center space-x-20 ">
-      <div className="flex flex-col items-center justify-center rounded-xl shadow-xl shadow-emerald-800">
-        <div className="flex flex-col items-center justify-center w-[350px] h-[550px] rounded-xl bg-gray-800 ">
-          <div className="mb-16">
-            <div className="w-[350px] h-[400px] relative ">
-              <Image
-                className="w-[450px] h-[500px] rounded-xl object--down"
-                src={props.image}
-                alt="Rounded avatar"
-                layout="fill"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col items-center justify-center mb-10 space-y-3">
-            <div className="w-[355px] text-center text-white text-xl font-bold font-Montserrat tracking-wide px-5 ">
-              <h2> {props.name}</h2>
-            </div>
-            <div className="text-center text-white text-2xl font-semibold font-Open Sans tracking-wide ">
-              ${props.price}
-            </div>
+    <div className="flex items-center justify-center">
+      <div className="bg-pink-400 bg-opacity-20 rounded-md shadow-lg shadow-slate-400">
+        <div>
+          <Image width={300} height={300} src={props.image} alt="shoe" />
+        </div>
+        <div className="px-5 py-5 pb-7">
+          <div className="flex flex-col space-y-2 text-white mt-5">
+            <h1 className="font-bold">{props.name}</h1>
+            <h1>${props.price}</h1>
           </div>
         </div>
       </div>
