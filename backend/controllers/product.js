@@ -3,6 +3,16 @@ import pkg from "node-nlp";
 import vader from "vader-sentiment";
 const { SentimentIntensityAnalyzer } = pkg;
 
+export const getRev = (req, res) => {
+  const productId = req.params.id;
+  const query = "SELECT * FROM reviews";
+
+  db.query(query, productId, (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data);
+  });
+};
+
 export const getReviews = (req, res) => {
   const productId = req.params.id;
   const q = "SELECT review_id, user_review FROM reviews WHERE `product_id` = ?";
@@ -129,106 +139,23 @@ export const getProduct = (req, res) => {
 };
 
 export const addOrder = (req, res) => {
-  const date = new Date(req.body.order_date);
+  const date = "2002-01-03";
 
   const orderQuery =
-    "INSERT INTO orders(order_date, card_name, cvv, exp_date, card_number, total_amount, product_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO orders(`order_date`, `address` ,`card_name`, `cvv`, `exp_date`, `card_number`, `product_id`) VALUES (?)";
 
   const orderValues = [
-    date || null,
+    date,
+    req.body.address,
     req.body.card_name,
     req.body.cvv,
     req.body.exp_date,
     req.body.card_number,
-    req.body.address,
-    req.body.total_amount,
     req.body.product_id,
   ];
 
-  db.beginTransaction((err) => {
-    if (err) throw err;
-
-    db.query(orderQuery, orderValues, (err, orderResult) => {
-      if (err) {
-        db.rollback(() => {
-          res.status(500).json(err);
-        });
-      } else {
-        db.commit((err) => {
-          if (err) {
-            db.rollback(() => {
-              res.status(500).json(err);
-            });
-          } else {
-            res.status(200).json(orderResult);
-          }
-        });
-      }
-    });
+  db.query(orderQuery, [orderValues], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.json("Data has been added");
   });
 };
-
-// export const addOrder = (req, res) => {
-//   const date = new Date(req.body.order_date);
-
-//   const orderQuery =
-//     "INSERT INTO orders(order_date, card_name, cvv, exp_date, card_number, address, total_amount, product_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-//   const orderValues = [
-//     date || null,
-//     req.body.card_name,
-//     req.body.cvv,
-//     req.body.exp_date,
-//     req.body.card_number,
-//     req.body.address,
-//     req.body.total_amount,
-//     req.body.product_id,
-//   ];
-
-//   db.beginTransaction((err) => {
-//     if (err) throw err;
-
-//     db.query(orderQuery, [orderValues], (err, orderResult) => {
-//       if (err) {
-//         db.rollback(() => {
-//           res.status(500).json(err);
-//         });
-//       } else {
-//         res.status(200).json(orderResult);
-//       }
-//       // const orderDetailsQuery =
-//   //   "INSERT INTO order_details(order_id, product_id, quantity, size_id, color_id) VALUES (?, ?, ?, ?, ?)";
-
-//   // const orderDetailsValues = [
-//   //   req.body.product_id,
-//   //   req.body.quantity,
-//   //   req.body.size_id,
-//   //   req.body.color_id,
-//   // ];
-
-//       // const order_id = orderResult.insertId;
-
-//       // db.query(
-//       //   orderDetailsQuery,
-//       //   [order_id, ...orderDetailsValues],
-//       //   (err, detailsResult) => {
-//       //     if (err) {
-//       //       db.rollback(() => {
-//       //         res.status(500).json(err);
-//       //       });
-//       //     }
-
-//       //     db.commit((err) => {
-//       //       if (err) {
-//       //         db.rollback(() => {
-//       //           res.status(500).json(err);
-//       //         });
-//       //       }
-
-//       //       res.json("Order has been created.");
-//       //     });
-//       //   }
-//       //);
-//     });
-//   });
-// };

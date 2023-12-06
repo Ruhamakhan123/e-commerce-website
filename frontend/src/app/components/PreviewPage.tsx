@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import pic from "../../../public/shubham-mittal-sCXmwaVrBio-unsplash.jpg";
+import { useRouter } from "next/navigation";
 
 interface Shoes {
   productID: number;
@@ -19,8 +19,16 @@ interface Shoes {
   color_name: string;
 }
 
+interface Review {
+  review_id: number;
+  user_review: string;
+  sentiment: string;
+}
+
 function PreviewPage() {
+  const router = useRouter();
   const [product, setProduct] = useState<Shoes>([]);
+  const [review, setReview] = useState<Review>([]);
   const { id } = useParams();
   useEffect(() => {
     const fetchData = async () => {
@@ -35,15 +43,30 @@ function PreviewPage() {
     fetchData();
   }, []);
 
-  const handleClick = (productID: number) => {};
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:8800/api/products/review/${id}`
+        );
+        setReview(res.data);
+        console.log(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleClick = (productID: number) => {
+    router.push(`/payment/${productID}`);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <div>
-        <h1 className="text-white font-bold text-[30px] italic">
-          Choosen Product
-        </h1>
-      </div>
+      <h1 className="text-white font-medium text-[30px] tracking-widest mt-5">
+        Choosen Product
+      </h1>
 
       <div
         className="bg-black shadow-lg shadow-slate-400 -mt-24"
@@ -53,29 +76,46 @@ function PreviewPage() {
           <div>
             <Image
               src={product?.productImage}
-              alt={""}
+              alt={"shoe"}
               width={1000}
               height={1000}
             />
           </div>
 
           <div className="flex flex-col px-20 py-10 space-y-24 text-white">
-            <h1 className="font-thin max-w-md text-5xl py-10 tracking-widest">
-              {product.productName}
-            </h1>
+            <div>
+              <h1 className="font-thin max-w-md text-5xl py-10 tracking-widest">
+                {product.productName}
+              </h1>
+              <h1 className="tracking-widest text-xl">{product.name} Shoe</h1>
+            </div>
+
             <p className="max-w-md text-xl">{product.productDes}</p>
+
             <div className="flex flex-col space-y-3 text-white">
               <div className="flex flex-col space-y-2">
-                <h1 className="text-2xl">Product Category</h1>
-                <div className="text-xl">{product.name}</div>
+                <h1 className="tracking-wider text-3xl">Product Name</h1>
+                <h1 className="font-thin tracking-widest text-2xl">
+                  {product.productName}
+                </h1>
               </div>
               <div className="flex flex-col space-y-2">
-                <h1 className="text-2xl">Product Size</h1>
-                <div className="text-xl">{product.size_name}</div>
+                <h1 className="tracking-wider text-3xl">Product Size</h1>
+                <h1 className="font-thin tracking-widest text-2xl">
+                  {product.size_name}
+                </h1>
               </div>
               <div className="flex flex-col space-y-2">
-                <h1 className="text-2xl">Product Color</h1>
-                <div className="text-xl">{product.color_name}</div>
+                <h1 className="tracking-wider text-3xl">Product Color</h1>
+                <h1 className="font-thin tracking-widest text-2xl">
+                  {product.color_name}
+                </h1>
+              </div>
+              <div className="flex flex-col space-y-2">
+                <h1 className="tracking-wider text-3xl">Product Review</h1>
+                <h1 className="font-thin tracking-widest text-2xl">
+                  {review.sentiment}
+                </h1>
               </div>
             </div>
             <div>
