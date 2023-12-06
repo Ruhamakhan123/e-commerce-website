@@ -1,7 +1,6 @@
 import { db } from "../db.js";
-import pkg from "node-nlp";
+
 import vader from "vader-sentiment";
-const { SentimentIntensityAnalyzer } = pkg;
 
 export const getReviews = (req, res) => {
   const productId = req.params.id;

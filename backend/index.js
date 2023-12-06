@@ -9,6 +9,8 @@ app.use(
     origin: "*",
   })
 );
+app.use("/upload", express.static(path.join(__dirname, "upload")));
+
 app.use("/api/products", productRoutes);
 
 app.listen(8800, () => {
